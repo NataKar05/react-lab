@@ -13,7 +13,7 @@ export default function MeetingsPage() {
 
     return (
         <div>
-            <h2>Zajęcia</h2>
+            <h2>Zajęcia({meetings.length})</h2>
             <NewMeetingForm onSubmit={(meeting) => handleNewMeeting(meeting)}/>
             <MeetingsList meetings={meetings}/>
         </div>
