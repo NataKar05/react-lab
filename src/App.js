@@ -1,46 +1,33 @@
 import './App.css';
-import { useState } from "react";
-import "milligram";
+import { useState } from 'react';
+import LoginForm from './LoginForm';
+import UserPanel from './UserPanel';
+import MeetingsPage from './meetings/MeetingsPage'; // uwzględnij ścieżkę
 
 function App() {
-    const [email, setEmail] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(null);
 
-    const handleLogin = () => {
-        if (email.trim() !== '') {
-            setIsLoggedIn(true);
-        }
+    const login = (username) => {
+        setLoggedIn(username);
     };
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setEmail('');
+    const logout = () => {
+        setLoggedIn(null);
     };
 
     return (
-        <div style={{ border: '1px solid lightgray', padding: '20px' }}>
-            <h1>Witaj w systemie do zapisów na zajęcia</h1>
-
-            {isLoggedIn ? (
-                <>
-                    <h2>Witaj {email}!</h2>
-                    <a href="#" onClick={handleLogout}>Wyloguj</a>
-                </>
-            ) : (
-                <>
-                    <label>
-                        Zaloguj się e-mailem{' '}
-                        <input
-                            type="text"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </label>
-                    <button type="button" onClick={handleLogin}>
-                        Wchodzę
-                    </button>
-                </>
-            )}
+        <div>
+            <h1>System do zapisów na zajęcia</h1>
+            {
+                loggedIn
+                    ? (
+                        <>
+                            <UserPanel username={loggedIn} onLogout={logout} />
+                            <MeetingsPage />
+                        </>
+                    )
+                    : <LoginForm onLogin={login} />
+            }
         </div>
     );
 }
