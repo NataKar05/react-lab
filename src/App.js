@@ -3,27 +3,44 @@ import './App.css';
 import { useState } from "react";
 
 function App() {
-    const [email, setEmail] = useState('fracz@agh.edu.pl');
+    const [email, setEmail] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    function handleChange(event) {
-        setEmail(event.target.value);
-    }
+    const handleLogin = () => {
+        if (email.trim() !== '') {
+            setIsLoggedIn(true);
+        }
+    };
 
-    let message;
-    if (email.length < 5) {
-        message = <div>Ale masz krótki adres!</div>;
-    } else if (email.length < 10) {
-        message = <div>Twój adres e-mail jest w sam raz.</div>;
-    } else {
-        message = <div>Twój adres e-mail jest stanowczo za długi.</div>;
-    }
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setEmail('');
+    };
 
     return (
-        <div>
-            <h1>System do zapisów na zajęcia</h1>
-            <h2>Twój e-mail to {email}</h2>
-            {message}
-            <input type="text" value={email} onChange={handleChange} value ={email}/>
+        <div style={{ border: '1px solid lightgray', padding: '20px' }}>
+            <h1>Witaj w systemie do zapisów na zajęcia</h1>
+
+            {isLoggedIn ? (
+                <>
+                    <h2>Witaj {email}!</h2>
+                    <a href="#" onClick={handleLogout}>Wyloguj</a>
+                </>
+            ) : (
+                <>
+                    <label>
+                        Zaloguj się e-mailem{' '}
+                        <input
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </label>
+                    <button type="button" onClick={handleLogin}>
+                        Wchodzę
+                    </button>
+                </>
+            )}
         </div>
     );
 }
